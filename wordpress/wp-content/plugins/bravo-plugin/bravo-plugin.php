@@ -99,21 +99,23 @@ function bravo_info_box($id) {
     $info = bravo_fetch_movie_info($id, $key);
     if($info['Response'] == 'True') {
         $info_box='
-        <table class="bravo-infobox">
-            <tr>
-                <th colspan="2" scope="col">'.$info['Title'].' ('.$info['Year'].')</th>
-            </tr>
-            <tr>
-                <td class="bravo-img"><img src="'.$info['Poster'].'" alt="'.$info['Title'].' poster" /></td>
-                <td>
+        <div class="bravo-infobox row">
+            <div class="col-sm-12 text-center">
+                <h4>'.$info['Title'].' ('.$info['Year'].')</h4>
+            </div>
+            <div class="col-sm-12 vertical-align">
+                <div class="bravo-img col-sm-4">
+                    <img src="'.$info['Poster'].'" alt="'.$info['Title'].' poster" />
+                </div>
+                <div class="col-sm-8">
                     <b>Rating:</b> '.$info['imdbRating'].'/10 ('.$info['imdbVotes'].' votes)<br/>
                     <b>Stars:</b> '.$info['Actors'].'<br/>
                     <b>Genre:</b> '.$info['Genre'].'<br/>
                     <b>Released:</b> '.$info['Released'].'<br/>
                     <b>Plot:</b> '.$info['Plot'].'
-                </td>
-            </tr>
-        </table>';
+                </div>
+            </div>
+        </div>';
     } else {
         $info_box='Error: '.$info['Error'];
     }

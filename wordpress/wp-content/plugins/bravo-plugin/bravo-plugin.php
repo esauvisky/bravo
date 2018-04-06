@@ -97,7 +97,7 @@ function bravo_info_box($id) {
     }
 
     $info = bravo_fetch_movie_info($id, $key);
-    if($info['Response']=='True') {
+    if($info['Response'] == 'True') {
         $info_box='
         <table class="bravo-infobox">
             <tr>
@@ -124,8 +124,9 @@ function bravo_search_page() {
     ?>
     <form role="search" method="get" class="search-form form-group" action="/search">
         <label class="label-floating is-empty form-group">
-            <label class="control-label"> Search </label>
-            <input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+            <span class="screen-reader-text">Search for:</span>
+            <label class="control-label"> Search … </label>
+            <input type="search" class="search-field" placeholder="Search &hellip;" value="" name="title" />
         </label>
         <input type="submit" class="search-submit" value="Search">
     </form>
@@ -134,13 +135,19 @@ function bravo_search_page() {
         // Yes, this is pretty much cheating.
         // The clock is ticking, though...
         $query = htmlspecialchars($_GET['title'], ENT_QUOTES);
+        //$query = $_GET['title'];
         echo '<h3>Results for ' . $query . ':</h3>';
-        $results = bravo_do_search($query);
-        if ($results['Response'] == true) {
+        $results = bravo_do_search(urlencode($query));
+        if ($results['Response'] == 'True') {
             foreach ($results['Search'] as $result) {
                 //echo 'result imdbid' . $result['imdbID'] . '<br/>';
                 echo bravo_info_box($result['imdbID']);
             }
+        } elseif ($results['Response'] == 'False') {
+            echo "<strong>" . $results['Error'] . " :(</strong>";
+        }
+        else {
+            echo "<strong>Something really bad happened.</strong> <em>What are you trying to achieve?! :D</em>";
         }
 
     }

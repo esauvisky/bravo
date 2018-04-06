@@ -20,7 +20,7 @@ Bravi Assessment Test
 
         docker-compose up -d
 
-3. Open your browser and point it to `localhost`<sup>[1](#footnote1)</sup>.
+3. Open your browser and point it to `localhost`<sup>[[1]](#footnote1)</sup>.
 
 4. Profit.
 
@@ -32,11 +32,11 @@ Bravi Assessment Test
 
 - Try cheating!
 
-    - Open the [search page](http://localhost/search/) while not logged in — directly via the URL —, see if it works <sup>[2](#footnote2)</sup>.
+    - Open the [search page](http://localhost/search/) while not logged in — directly via the URL —, see if it works <sup>[[2]](#footnote2)</sup>.
 
 
-### Foot-Notes
+## Foot-Notes
 
-<a name="footnote1">1</a>: If you're already running anything on port 80, you can map a different port by editing the file `docker-compose.yml`.
+<a name="footnote1">1</a>. If you're already running anything on port 80, you can map a different port by editing the file `docker-compose.yml`.
 
-<a name="footnote2">2</a>: If you open any "Private" page without the correct permissions, Wordpress' default behaviour is to 404 on you. The proper way to solve it and give you control over what'll be displayed — e.g.: an alternative login page — would be to create a custom page template that handles the verification of whether the user is logged in or not, and use it as the template of the page(s) you're trying to restrict access. Setting pages as Private is much simpler and works perfectly fine, but it's definitely a workaround, which in the long run could get messy, particularly if you have lots of pages to restrict access to.
+<a name="footnote2">2</a>. If you open any "Private" page without the correct permissions, Wordpress' default behaviour is to 404 on you. The proper way to solve it and give you control over what'll be displayed — e.g.: an alternative login page — would be to create a custom page template that handles the verification of whether the user is logged in or not, and use it as the template of the page(s) you're trying to restrict access. Setting pages as Private is much simpler and works perfectly fine, but it's definitely a workaround, which in the long run could get messy, particularly if you have lots of pages to restrict access to.

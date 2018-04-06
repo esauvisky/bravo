@@ -3,16 +3,17 @@
     clear:both;
     border:solid 1px #FFCC00;
     background:#F4F3D9;
-    border-radius:5px
+    border-radius:5px;
+    margin-bottom: 10px;
 }
 .bravo-infobox th {
     line-height:1.3em;
     font-size:1.2em;
     text-align:center;
     color:#FFFFFF;
-    background:#FFCC00;
+    background:#ff9800;
     padding:2px;
-    border-radius:5px
+    border-radius:5px;
 }
 .bravo-infobox td {
     vertical-align:top;
@@ -23,7 +24,7 @@
 .bravo-img {
     width:160px;
     height:225px;
-    text-align:center
+    text-align:center;
 }
 .bravo-img img {
     max-width:100%;

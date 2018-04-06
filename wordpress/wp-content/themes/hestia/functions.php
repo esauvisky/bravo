@@ -1111,7 +1111,7 @@ if ( ! function_exists( 'hestia_search_in_menu' ) ) :
 				<div class="hestia-nav-search">
 					<span class="screen-reader-text">' . _x( 'Search for:', 'label', 'hestia' ) . '</span>
 					<span class="search-field-wrapper">
-					
+
 					<input type="search" class="search-field" placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder', 'hestia' ) . '" value="' . get_search_query() . '" name="s" />
 					</span>
 					<span class="search-submit-wrapper">

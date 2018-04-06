@@ -7,7 +7,7 @@ Author: Emiliano Sauvisky
 Released under the MIT License
 */
 
-/* AIN'T GOT TIME FOR DOCUMENTATION IN HERE, OK? */
+/* AIN'T GOT TIME FOR FANCY DOCUMENTATION IN HERE, OKAY? */
 
 define('BRAVOPLUGINABSPATH', str_replace("\\","/", WP_PLUGIN_DIR . '/' . plugin_basename( dirname(__FILE__) ) . '/' ));
 
@@ -45,6 +45,20 @@ function bravo_style() {
     wp_enqueue_style('bravo-style');
 }
 
+function bravo_fetch_movie_info($id, $key) {
+    $raw=file_get_contents_curl('http://www.omdbapi.com/?i='.$id.'&apikey='.$key);
+    $info=json_decode($raw,true);
+    return $info;
+}
+
+function bravo_do_search($title) {
+    $key = get_option('omdbapikey');
+    $raw=file_get_contents_curl('http://www.omdbapi.com/?s='.$title.'&apikey='.$key);
+    $results=json_decode($raw,true);
+    // TODO: do something about the pagination *here*
+    return $results;
+}
+
 function bravo_admin_option() {
     ?>
     <div class="wrap">
@@ -68,17 +82,13 @@ function bravo_admin_option() {
     <?php
 }
 
-function bravo_fetch_movie_info($id, $key) {
-    $raw=file_get_contents_curl('http://www.omdbapi.com/?i='.$id.'&apikey='.$key);
-    $info=json_decode($raw,true);
-    return $info;
-}
-
 function bravo_info_box($id) {
     $key = get_option('omdbapikey');
 
-    // For debug purposes (for shortcodes)
-    $id=$id['id'];
+    // For debug purposes (for the [bravo id=''] shortcode)
+    if (is_array($id)) {
+        $id=$id['id'];
+    }
 
     if(empty($id)) {
         return '<b>No IMDB ID passed<b>';
@@ -88,23 +98,52 @@ function bravo_info_box($id) {
 
     $info = bravo_fetch_movie_info($id, $key);
     if($info['Response']=='True') {
-        $out='
+        $info_box='
         <table class="bravo-infobox">
             <tr>
                 <th colspan="2" scope="col">'.$info['Title'].' ('.$info['Year'].')</th>
             </tr>
             <tr>
                 <td class="bravo-img"><img src="'.$info['Poster'].'" alt="'.$info['Title'].' poster" /></td>
-                <td><b>Rating:</b> '.$info['imdbRating'].'/10 ('.$info['imdbVotes'].' votes)<br><b>Director:</b> '.$info['Director'].'<br><b>Writer:</b> '.$info['Writer'].'<br><b>Stars:</b> '.$info['Actors'].'<br><b>Runtime:</b> '.$info['Runtime'].'<br><b>Rated:</b> '.$info['Rated'].'<br><b>Genre:</b> '.$info['Genre'].'<br><b>Released:</b> '.$info['Released'].'</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Plot:</b> '.$info['Plot'].'</td>
+                <td>
+                    <b>Rating:</b> '.$info['imdbRating'].'/10 ('.$info['imdbVotes'].' votes)<br/>
+                    <b>Stars:</b> '.$info['Actors'].'<br/>
+                    <b>Genre:</b> '.$info['Genre'].'<br/>
+                    <b>Released:</b> '.$info['Released'].'<br/>
+                    <b>Plot:</b> '.$info['Plot'].'
+                </td>
             </tr>
         </table>';
     } else {
-        $out='Error: '.$info['Error'];
+        $info_box='Error: '.$info['Error'];
     }
-    return $out;
+    return $info_box;
+}
+
+function bravo_search_page() {
+    ?>
+    <form role="search" method="get" class="search-form form-group" action="/search">
+        <label class="label-floating is-empty form-group">
+            <label class="control-label"> Search </label>
+            <input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+        </label>
+        <input type="submit" class="search-submit" value="Search">
+    </form>
+    <?php
+    if ($_GET['title']) {
+        // Yes, this is pretty much cheating.
+        // The clock is ticking, though...
+        $query = htmlspecialchars($_GET['title'], ENT_QUOTES);
+        echo '<h3>Results for ' . $query . ':</h3>';
+        $results = bravo_do_search($query);
+        if ($results['Response'] == true) {
+            foreach ($results['Search'] as $result) {
+                //echo 'result imdbid' . $result['imdbID'] . '<br/>';
+                echo bravo_info_box($result['imdbID']);
+            }
+        }
+
+    }
 }
 
 add_action('admin_init', 'bravo_setting' );
@@ -112,7 +151,13 @@ add_action('admin_menu', 'bravo_menu');
 add_action('wp_enqueue_scripts', 'bravo_style');
 register_activation_hook(__FILE__, 'bravo_activate');
 register_deactivation_hook(__FILE__, 'bravo_deactivate');
+add_shortcode('bravo_search', 'bravo_search_page');
 
-// For debug purposes (for using a shortcode)
+// For debug purposes (creates a [bravo id=''] shortcode to display a single box)
 add_shortcode('bravo','bravo_info_box');
+
+// Gave up on doin' it the right way
+// <input type="hidden" name="action" value="process_form">
+// add_action( 'admin_post_nopriv_process_form', 'bravo_do_search' );
+// add_action( 'admin_post_process_form', 'bravo_do_search' );
 ?>

@@ -36,7 +36,11 @@ Bravi Assessment Test
 
 ## Remarks
 
-- I've never used the theme Hestia(https://wordpress.org/themes/hestia/) before. I deliberately chose a random theme as a *proof-of-concept* that my solution would be robust enough to be suitable for any theme.
+- I've never used the theme Hetia(https://wordpress.org/themes/hestia/) before. I deliberately chose a random theme as a *proof-of-concept* that my solution would be robust enough to be suitable for any theme.
+
+- OMDB API parameter *By search* returns paginated JSONs, which **was not implemented on the search page**. So you'll only get 10 results per search.
+
+-
 
 ## Foot-Notes
 

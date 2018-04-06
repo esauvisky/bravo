@@ -1,0 +1,32 @@
+.bravo-infobox {
+    border-collapse: separate !important;
+    clear:both;
+    border:solid 1px #FFCC00;
+    background:#F4F3D9;
+    border-radius:5px
+}
+.bravo-infobox th {
+    line-height:1.3em;
+    font-size:1.2em;
+    text-align:center;
+    color:#FFFFFF;
+    background:#FFCC00;
+    padding:2px;
+    border-radius:5px
+}
+.bravo-infobox td {
+    vertical-align:top;
+    text-align:justify;
+    padding:5px;
+    color:#333333;
+}
+.bravo-img {
+    width:160px;
+    height:225px;
+    text-align:center
+}
+.bravo-img img {
+    max-width:100%;
+    max-height:100%;
+    border:solid thick #999999;
+}

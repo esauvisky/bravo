@@ -3,7 +3,7 @@ Bravi Assessment Test
 
 ### Disclaimer
 
->*I've never used docker before, though I took the challenge — **at the expense of maybe failing the test** — just for the sake of learning. It looks like a ridiculously useful tool, and I'm certain I'll continue to make use of it in my future projects, regardless of whether I pass this test or not. Keep in mind that I'm quite aware that the way I set it up for this project may look a bit funky, but that's to be expected as I'm still in the beggining of docker's learning curve.*
+>*I've never used docker before, though I took the challenge — **at the expense of maybe failing the test** — just for the sake of learning. It looked like such a ridiculously useful tool, that I'm certain I'll continue to make use of it in my future projects, regardless of whether I pass this test or not. Keep in mind that I'm quite aware that the way I set it up for this project may look a bit funky, but that's to be expected as I'm still in the beggining of docker's learning curve.*
 
 >*On the other hand, though, if anything regarding Wordpress looks a bit funky, well... that's simply because it's Wordpress.*
 
@@ -34,6 +34,9 @@ Bravi Assessment Test
 
     - Open the [search page](http://localhost/search/) while not logged in — directly via the URL —, see if it works <sup>[[2]](#footnote2)</sup>.
 
+## Remarks
+
+- I've never used the theme Hestia(https://wordpress.org/themes/hestia/) before. I deliberately chose a random theme as a *proof-of-concept* that my solution would be robust enough to be suitable for any theme.
 
 ## Foot-Notes
 

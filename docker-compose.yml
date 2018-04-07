@@ -3,9 +3,9 @@ version: '3.3'
 services:
     db:
         image: mysql:5.7
-        volumes:
-            - dbdata:/var/lib/mysql
         restart: always
+        volumes:
+            - ./mysql:/docker-entrypoint-initdb.d
         environment:
             MYSQL_ROOT_PASSWORD: muchpasswordmanyentropy
             MYSQL_DATABASE: wordpress
@@ -15,10 +15,9 @@ services:
     wordpress:
         depends_on:
             - db
-        #image: wordpress:latest
-        build: ./wordpress
+        image: wordpress:latest
         volumes:
-            - ./wordpress:/var/www/html/
+            - ./wp-content:/var/www/html/wp-content
         ports:
             - 80:80
         restart: always
@@ -26,5 +25,3 @@ services:
             WORDPRESS_DB_HOST: db:3306
             WORDPRESS_DB_USER: wordpress
             WORDPRESS_DB_PASSWORD: wordpress
-volumes:
-    dbdata:

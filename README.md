@@ -22,7 +22,7 @@ Bravi Assessment Test
 
 3. Open your browser and point it to `localhost`<sup>[[1]](#footnote1)</sup>.
 
-4. Profit.
+4. Profit. *I mean, Bravo!*
 
 ## Here are some suggestions to get you started
 
@@ -30,17 +30,39 @@ Bravi Assessment Test
 
 - Log in as `user:user`
 
+- Try UX from a mobile viewport
+
 - Try cheating!
 
     - Open the [search page](http://localhost/search/) while not logged in — directly via the URL —, see if it works <sup>[[2]](#footnote2)</sup>.
 
-## Remarks
+## Remarks and TODOs
 
 - I've never used the theme Hetia(https://wordpress.org/themes/hestia/) before. I deliberately chose a random theme as a *proof-of-concept* that my solution would be robust enough to be suitable for any theme.
 
-- OMDB API parameter *By search* returns paginated JSONs, which **was not implemented on the search page**. So you'll only get 10 results per search.
+- Though this implementation works, it **will never** scale properly without proper caching of — at least — the poster images.
 
--
+- Things that are missing and/or could've been done better:
+
+    1. OMDB API parameter *By search* returns paginated JSONs, which *was not implemented on the search page*. So you'll only get 10 results per search.
+
+    2. The form action for the Search page is a simple GET method to itself, which in turn makes `bravo-plugin` (a bit) theme-dependent. A better way to do it would be to add a hidden input into the form and use Wordpress' `process_form` hooks:
+
+        - HTML:
+
+                <form>
+                    [...]
+                    <input type="hidden" name="action" value="process_form">
+                </form>
+
+        - PHP:
+
+                add_action( 'admin_post_nopriv_process_form', 'bravo_do_search' );
+                add_action( 'admin_post_process_form', 'bravo_do_search' );
+
+        - The problem with this is that you have to have a custom page template just for dealing with the results page, so, in a way, it's also theme-dependant.
+
+    3. Sometimes OMDB returns posters images that do not exist (404). A simple check for this along a placeholder image for "Poster Not Available" would suffice.
 
 ## Foot-Notes
 

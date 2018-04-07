@@ -40,29 +40,17 @@ Bravi Assessment Test
 
 - I've never used the theme Hetia(https://wordpress.org/themes/hestia/) before. I deliberately chose a random theme as a *proof-of-concept* that my solution would be robust enough to be suitable for any theme.
 
-- Though this implementation works, it **will never** scale properly without proper caching of — at least — the poster images.
+- Though this implementation works, it **will never** scale properly without proper caching of — *at the very least* — the poster images.
 
 - Things that are missing and/or could've been done better:
 
-    1. OMDB API parameter *By search* returns paginated JSONs, which *was not implemented on the search page*. So you'll only get 10 results per search.
+    1. OMDB API parameter *By search* returns paginated JSONs, which **was not implemented on the search page**, so you'll only get 10 results max per search.
 
-    2. The form action for the Search page is a simple GET method to itself, which in turn makes `bravo-plugin` (a bit) theme-dependent. A better way to do it would be to add a hidden input into the form and use Wordpress' `process_form` hooks:
+    2. You can only **add** movies to your favorites, not remove them. To be fair, the assessment test did not explicitely specified that you should be able to remove a movie from your favorites. Nevertheless, it's easy to implement on `bravo_add_fav()` with a few changes on the .js to turn it into a toggle button.
 
-        - HTML:
+    3. Sometimes OMDB returns posters images URLs that do not exist (404), and that gets passed on into the Search and My Favorites pages. A simple check for this along a placeholder image for "Poster Not Available" would suffice to fix this issue.
 
-                <form>
-                    [...]
-                    <input type="hidden" name="action" value="process_form">
-                </form>
-
-        - PHP:
-
-                add_action( 'admin_post_nopriv_process_form', 'bravo_do_search' );
-                add_action( 'admin_post_process_form', 'bravo_do_search' );
-
-        - The problem with this is that you have to have a custom page template just for dealing with the results page, so, in a way, it's also theme-dependant.
-
-    3. Sometimes OMDB returns posters images that do not exist (404). A simple check for this along a placeholder image for "Poster Not Available" would suffice.
+    4. I could have used AJAX on the pagination of My Favorites page as well.
 
 ## Foot-Notes
 

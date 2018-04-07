@@ -1,6 +1,5 @@
+/* Full Infobox */
 .bravo-infobox {
-    border-collapse: separate !important;
-    clear:both;
     border:solid 1px #FFCC00;
     background:#F4F3D9;
     border-radius:5px;
@@ -19,15 +18,41 @@
     max-height:100%;
     border:solid thick #999999;
 }
+
+/* Short Infobox */
+.bravo-infobox-short {
+    border:solid 1px #a96500;
+    background:#F4F3D9;
+    display: flex;
+    align-items: center;
+}
+.bravo-infobox-short h5 {
+    margin-bottom: 0px !important;
+}
+.bravo-img-short {
+    width:30px;
+    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.bravo-img-short img {
+    max-width:100%;
+    max-height:100%;
+    border:solid 2px #111;
+}
+
+/* Mobile Fixes */
 @media (min-width: 768px) {
     .vertical-align {
         display: flex;
         align-items: center;
     }
 }
-
 @media (max-width: 767px) {
     .bravo-img {
         padding-bottom: 15px;
+    }
+    .bravo-infobox-short h5 {
+        font-size: 1.2em !important;
     }
 }

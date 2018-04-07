@@ -12,7 +12,7 @@
                     PT_Ajax.ajaxurl,
                     {
                         // wp ajax action
-                        action: 'ajax-bravoSubmit',
+                        action: 'ajax-bravoAddFav',
 
                         // vars
                         imdbID: id,

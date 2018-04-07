@@ -52,7 +52,7 @@ Bravi Assessment Test
 
     4. I could have used AJAX on the pagination of My Favorites page as well.
 
-## Foot-Notes
+## Footnotes
 
 <a name="footnote1">1</a>. If you're already running anything on port 80, you can map a different port by editing the file `docker-compose.yml`.
 

@@ -18,7 +18,7 @@ Bravi Assessment Test
 
 2. Run the docker application:
 
-        docker-compose up -d
+        docker-compose up
 
 3. Open your browser and point it to `localhost`<sup>[[1]](#footnote1)</sup>.
 

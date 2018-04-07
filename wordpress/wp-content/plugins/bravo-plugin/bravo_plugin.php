@@ -169,7 +169,7 @@ function bravo_search_page() {
             echo "<strong>" . $results['Error'] . " :(</strong>";
         }
         else {
-            echo "<strong>Something really bad happened.</strong> <em>What are you trying to achieve?! :D</em>";
+            echo "<strong>Something bad happened with the API :(</strong> It's output below:<br/><em>" . print_r($results) . "</em>";
         }
     }
 }
@@ -194,22 +194,22 @@ function bravo_favs_page() {
 
     ?>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-xs-6">
             <?php
             if ($page > 1) {
                 echo '<form method="get" action="/favorites">
                           <input type="hidden" value="' . ($page - 1) . '" name="fpage">
-                          <input type="submit" class="btn btn-primary" value="Previous Page">
+                          <input type="submit" class="btn btn-primary" value="Previous">
                       </form>';
             }
             ?>
         </div>
-        <div class="col-sm-6" style="text-align: right;">
+        <div class="col-xs-6" style="text-align: right;">
             <?php
             if ( $page < $page_count) {
                 echo '<form method="get" action="/favorites">
                           <input type="hidden" value="' . ($page + 1) . '" name="fpage">
-                          <input type="submit" class="btn btn-primary" value="Next Page">
+                          <input type="submit" class="btn btn-primary" value="Next">
                       </form>';
             }
             ?>

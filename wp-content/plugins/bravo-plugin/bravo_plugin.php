@@ -197,6 +197,11 @@ function bravo_search_page() {
 function bravo_favs_page() {
     $user_favs = get_user_meta(get_current_user_id(), 'favorites');
 
+    if (empty($user_favs)) {
+        echo '<h4>You have no favorites yet! Go around <a href="/search">Search</a> for some :)</h4>';
+        return;
+    }
+
     // It's funky pagination time!
     //      — I'm getting tired, guys...
     if (isset($_GET['fpage'])) {
@@ -207,7 +212,7 @@ function bravo_favs_page() {
     $fav_chunks = array_chunk($user_favs,5);
     $page_count = sizeof($fav_chunks);
 
-    // loops through the chunk and outputs the table
+    // Loops through the chunk and outputs the table
     foreach ($fav_chunks[$page-1] as $fav) {
         echo bravo_info_box($fav, $type='short');
     }
@@ -216,6 +221,7 @@ function bravo_favs_page() {
     <div class="row">
         <div class="col-xs-6">
             <?php
+            // Adds Previous page button
             if ($page > 1) {
                 echo '<form method="get" action="/favorites">
                           <input type="hidden" value="' . ($page - 1) . '" name="fpage">
@@ -226,6 +232,7 @@ function bravo_favs_page() {
         </div>
         <div class="col-xs-6" style="text-align: right;">
             <?php
+            // Adds Next page button
             if ( $page < $page_count) {
                 echo '<form method="get" action="/favorites">
                           <input type="hidden" value="' . ($page + 1) . '" name="fpage">

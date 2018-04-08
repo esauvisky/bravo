@@ -11,17 +11,18 @@
             $.post(
                     PT_Ajax.ajaxurl,
                     {
-                        // wp ajax action
+                        // Wp Ajax Action
                         action: 'ajax-bravoAddFav',
 
-                        // vars
+                        // Variables
                         imdbID: id,
 
-                        // send the nonce along with the request
+                        // Send the nonce along with the request
                         nextNonce: PT_Ajax.nextNonce
                     },
                     function (response) {
-                        console.log(response);
+                        // This was for debugging
+                        //console.log(response);
                     }
             );
             return false;

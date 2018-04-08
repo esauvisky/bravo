@@ -1,4 +1,6 @@
-/* Full Infobox */
+/***********
+Full Infobox
+***********/
 .bravo-infobox {
     border:solid 1px #FFCC00;
     background:#F4F3D9;
@@ -19,7 +21,9 @@
     border:solid thick #999999;
 }
 
-/* Short Infobox */
+/************
+Short Infobox
+************/
 .bravo-infobox-short {
     border:solid 1px #a96500;
     background:#F4F3D9;
@@ -27,6 +31,9 @@
     align-items: center;
 }
 .bravo-infobox-short h5 {
+    /* each !important is a -1, right? :D
+    This is just so I didn't have to create a
+    new class for a single span element... */
     margin-bottom: 0px !important;
 }
 .bravo-img-short {
@@ -41,7 +48,9 @@
     border:solid 2px #111;
 }
 
-/* Mobile Fixes */
+/***********
+Mobile Fixes
+***********/
 @media (min-width: 768px) {
     .vertical-align {
         display: flex;

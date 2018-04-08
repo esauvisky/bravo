@@ -7,8 +7,9 @@ Author: Emiliano Sauvisky
 Released under the MIT License
 */
 
-/* AIN'T GOT TIME FOR FANCY DOCUMENTATION IN HERE, OKAY? */
-
+/**
+ * Scrapes URLs
+ */
 function file_get_contents_curl($url) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_REFERER, 'http://www.imdb.com/');
@@ -23,48 +24,25 @@ function file_get_contents_curl($url) {
     return $data;
 }
 
+/**
+ * Administration options
+ */
 function bravo_activate() {
     add_option('omdbapikey','');
 }
 function bravo_deactivate() {
     delete_option('omdbapikey');
 }
-
 function bravo_menu() {
     add_options_page('Bravo! Options', 'Bravo! Options', 'manage_options', 'bravo_plugin', 'bravo_admin_option');
 }
-
 function bravo_setting() {
     register_setting('bravo_options', 'omdbapikey');
 }
 
-function bravo_style() {
-    wp_register_style('bravo-style', plugins_url('/css/bravo_style.css', __FILE__));
-    wp_enqueue_style('bravo-style');
-}
-
-function bravo_fav_scripts() {
-    wp_enqueue_script( 'bravo_fav', plugins_url( 'js/bravo_fav.js', __FILE__ ), array( 'jquery' ) );
-    wp_localize_script( 'bravo_fav', 'PT_Ajax', array(
-            'ajaxurl'   => admin_url( 'admin-ajax.php' ),
-            'nextNonce' => wp_create_nonce( 'myajax-next-nonce' )
-    ));
-}
-
-function bravo_fetch_movie_info($id, $key) {
-    $raw=file_get_contents_curl('http://www.omdbapi.com/?i='.$id.'&apikey='.$key);
-    $info=json_decode($raw,true);
-    return $info;
-}
-
-function bravo_do_search($title) {
-    $key = get_option('omdbapikey');
-    $raw=file_get_contents_curl('http://www.omdbapi.com/?s='.$title.'&apikey='.$key);
-    $results=json_decode($raw,true);
-    // TODO: do something about the pagination *here*
-    return $results;
-}
-
+/**
+ * The admin options interface
+ */
 function bravo_admin_option() {
     ?>
     <div class="wrap">
@@ -88,17 +66,53 @@ function bravo_admin_option() {
     <?php
 }
 
+/**
+ * Registers the plugin main stylesheet
+ */
+function bravo_style() {
+    wp_register_style('bravo-style', plugins_url('/css/bravo_style.css', __FILE__));
+    wp_enqueue_style('bravo-style');
+}
 
-function bravo_info_box($id, $type="full") {
+/**
+ * Fetches OMDB about a specific IMDB ID
+ */
+function bravo_fetch_movie_info($id) {
     $key = get_option('omdbapikey');
+    if (empty($key)) {
+       return '<b>You need to set up your OMDB API Key first!</b>';
+    }
+    $raw=file_get_contents_curl('http://www.omdbapi.com/?i='.$id.'&apikey='.$key);
+    $info=json_decode($raw,true);
+    return $info;
+}
 
+/**
+ * Fetches OMDB about a search query
+ */
+function bravo_do_search($title) {
+    $key = get_option('omdbapikey');
+    if (empty($key)) {
+       return '<b>You need to set up your OMDB API Key first!</b>';
+    }
+    $raw=file_get_contents_curl('http://www.omdbapi.com/?s='.$title.'&apikey='.$key);
+    $results=json_decode($raw,true);
+    // TODO: do something about the pagination *here*
+    return $results;
+}
+
+/**
+ * Generates the infoboxes about each movie
+ *
+ * Type: Full is the one you see at the results of the "Search" page
+ * Type: Short is the one used at the "My Favorites" page
+ */
+function bravo_info_box($id, $type="full") {
     if(empty($id)) {
         return '<b>No IMDB ID passed<b>';
-    } elseif (empty($key)) {
-        return '<b>You need to set up your OMDB API Key first!</b>';
     }
 
-    $info = bravo_fetch_movie_info($id, $key);
+    $info = bravo_fetch_movie_info($id);
 
     if($info['Response'] == 'True') {
         if ($type == "full") {
@@ -144,6 +158,9 @@ function bravo_info_box($id, $type="full") {
     return $info_box;
 }
 
+/**
+ * Generates the "Search" page and deals with searches
+ */
 function bravo_search_page() {
     ?>
     <form role="search" method="get" class="search-form form-group" action="/search">
@@ -174,6 +191,9 @@ function bravo_search_page() {
     }
 }
 
+/**
+ * Generates the "My Favorites" page, and deals (poorly) with pagination
+ */
 function bravo_favs_page() {
     $user_favs = get_user_meta(get_current_user_id(), 'favorites');
 
@@ -219,6 +239,20 @@ function bravo_favs_page() {
 }
 
 
+/**
+ * Registers the custom ajax js (for the Add to Favorite button)
+ */
+function bravo_fav_scripts() {
+    wp_enqueue_script( 'bravo_fav', plugins_url( 'js/bravo_fav.js', __FILE__ ), array( 'jquery' ) );
+    wp_localize_script( 'bravo_fav', 'PT_Ajax', array(
+            'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+            'nextNonce' => wp_create_nonce( 'myajax-next-nonce' )
+    ));
+}
+
+/**
+ * Adds movies to user's favorites, using the js above and wordpress' user_meta
+ */
 function bravo_add_fav() {
     // go XSS something else
     $nonce = $_POST['nextNonce'];
@@ -242,7 +276,6 @@ function bravo_add_fav() {
     // TODO: else, remove it (with the proper button update on the .js)
     //       this implies also hooking each search result to check if the movie is already on the favs
 
-    // IMPORTANT: don't forget to exit
     exit;
 }
 

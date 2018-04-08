@@ -22,7 +22,7 @@ Bravi Assessment Test
 
 3. Open your browser and point it to `localhost`<sup>[[1]](#footnote1)</sup>.
 
-4. Profit. *I mean, Bravo!*
+4. Bravo!
 
 ## Here are some suggestions to get you started
 
@@ -38,6 +38,8 @@ Bravi Assessment Test
 
 ## Remarks and TODOs
 
+- *It was quite hard. And I had a three-day deadline. So I rushed it.* Expect lack of documentation, several workarounds, no OOP at all and some bad jokes.
+
 - I've never used the theme [Hestia](https://wordpress.org/themes/hestia/) before. I deliberately chose a random theme as a *proof-of-concept* that my solution would be robust enough to be suitable for any theme.
 
 - Though this implementation works, it **will never** scale properly without proper caching of — *at the very least* — the poster images.
@@ -50,7 +52,7 @@ Bravi Assessment Test
 
     3. Sometimes OMDB returns posters images URLs that do not exist (404), and that gets passed on into the Search and My Favorites pages. A simple check for this along a placeholder image for "Poster Not Available" would suffice to fix this issue.
 
-    4. I could have used AJAX on the pagination of My Favorites page as well.
+    4. I certainly could have used AJAX on the pagination of My Favorites page as well.
 
 ## Footnotes
 

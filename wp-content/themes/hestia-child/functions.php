@@ -2,15 +2,14 @@
 /**
  *  Theme-specific stuff
  */
-if ( !defined( 'ABSPATH' ) ) exit;
-if ( !function_exists( 'hestia_child_parent_css' ) ):
+if (!defined('ABSPATH')) exit;
+if (!function_exists('hestia_child_parent_css')):
     function hestia_child_parent_css() {
         wp_enqueue_style( 'hestia_child_parent', trailingslashit( get_template_directory_uri() ) . 'style.css', array( 'bootstrap' ) );
 	if( is_rtl() ) {
 		wp_enqueue_style( 'hestia_child_parent_rtl', trailingslashit( get_template_directory_uri() ) . 'style-rtl.css', array( 'bootstrap' ) );
 	}
-
-    }
+}
 endif;
 add_action( 'wp_enqueue_scripts', 'hestia_child_parent_css', 10 );
 
@@ -32,26 +31,27 @@ add_action( 'after_switch_theme', 'hestia_child_get_lite_options' );
  *  Removes the annoying admin bar
  */
 show_admin_bar(false);
-/*function remove_admin_bar() {
-    // Removes the bar only for non-admins (meh..)
-    // Deprecated in favor of custom menu items in add_menu_items()
+/*
+// Deprecated in favor of custom menu items in add_menu_items() below
+function remove_admin_bar() {
     if (!current_user_can('administrator') && !is_admin()) {
         show_admin_bar(false);
     }
 }
-add_action('after_setup_theme', 'remove_admin_bar');*/
+add_action('after_setup_theme', 'remove_admin_bar');
+*/
 
 /**
  *  Allow subscribers to see Private posts and pages
  */
-$subRole = get_role( 'subscriber' );
-$subRole->add_cap( 'read_private_posts' );
-$subRole->add_cap( 'read_private_pages' );
+$subRole = get_role('subscriber');
+$subRole->add_cap('read_private_posts');
+$subRole->add_cap('read_private_pages');
 
 /**
  *  Display different menu items for different users
  */
-add_filter( 'wp_nav_menu_items', 'add_menu_items', 10, 2 );
+add_filter('wp_nav_menu_items', 'add_menu_items', 10, 2);
 function add_menu_items( $items, $args ) {
     if (is_user_logged_in()) {
         // Adds Search and My Favorites items to the primary menu when logged in
